@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  nats-streaming:
+    image: nats-streaming:alpine
+    container_name: nats-streaming
+    restart: always
+    ports:
+      - "4322:4322"
+      - "8322:8322"
+    volumes:
+      - /Users/marcosgmgm/nats:/datastore
+    command: -store file -dir datastore -ma 60s --file_slice_max_age 60s -mi 60s -m 8322 -cid dennis-nats-stan-logs -p 4322
+
+networks:
+  ped-nats-streaming:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.68.77.1/24
